@@ -168,11 +168,21 @@ static void reserve_debug_memory(void)
 void __init msm_8974_reserve(void)
 {
 #ifdef CONFIG_KEXEC_HARDBOOT
-	// Reserve space for hardboot page, just before the ram_console
-	//struct membank* bank = &meminfo.bank[0];
-	//phys_addr_t start = bank->start + bank->size - SZ_1M - 0x00300000;
-	phys_addr_t start = KEXEC_HB_PAGE_ADDR;
-	int ret = memblock_remove(start, SZ_1M);
+	// Reserve space for hardboot page - just after ram_console,
+	// at the start of second memory bank
+	
+	int ret;
+	phys_addr_t start;
+	struct membank* bank;
+
+	if (meminfo.nr_banks < 2) {
+		pr_err("%s: not enough membank\n", __func__);
+		return;
+	}
+	
+	bank = &meminfo.bank[1];
+	start = KEXEC_HB_PAGE_ADDR;
+	ret = memblock_remove(start, SZ_1M);
 	if(!ret)
 		pr_info("Hardboot page reserved at 0x%X\n", start);
 	else
