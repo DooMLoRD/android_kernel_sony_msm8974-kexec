@@ -26,10 +26,8 @@
 #define KEXEC_HB_KERNEL_LOC    UL(0x3208000)
 #elif defined(CONFIG_MACH_SONY_HONAMI_ROW)
 #define KEXEC_HB_PAGE_ADDR    UL(0x10100000)
-#define KEXEC_HB_KERNEL_LOC    UL(0x3208000)
 #elif defined(CONFIG_MACH_SONY_TOGARI_ROW)
 #define KEXEC_HB_PAGE_ADDR    UL(0x10100000)
-#define KEXEC_HB_KERNEL_LOC    UL(0x3208000)
 #else
 #error "Adress for kexec hardboot page not defined"
 #endif
