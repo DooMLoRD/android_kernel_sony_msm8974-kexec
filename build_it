@@ -1,0 +1,20 @@
+### select toolchain
+## GCC 4.6
+CUR_TC=/home/krabappel2548/android/toolchains/arm-eabi-4.6/bin/
+
+### compile kernel
+ARCH=arm CROSS_COMPILE=${CUR_TC}arm-eabi- make -j8
+
+echo "checking for compiled kernel..."
+if [ -f arch/arm/boot/zImage ]
+then
+
+echo "generating device tree..."
+./dtbTool -o ./final_files/dt.img -s 2048 -p ./scripts/dtc/ ./arch/arm/boot/
+
+### copy zImage
+cp arch/arm/boot/zImage ./final_files/.
+
+echo "done"
+
+fi
